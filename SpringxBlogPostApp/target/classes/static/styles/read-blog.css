@@ -1,0 +1,111 @@
+/* styles.css */
+body {
+  font-family: "Merriweather", serif;
+  background-color: #f8f9fa;
+  color: #212529;
+  padding-top: 80px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dark-mode {
+  background-color: #121212;
+  color: #e4e6eb;
+}
+
+.dark-mode .navbar {
+  background-color: #1f1f1f !important;
+}
+
+.dark-mode .form-control,
+.dark-mode .btn {
+  background-color: #333;
+  color: #fff;
+  border-color: #555;
+}
+
+.container {
+  max-width: 1000px;
+}
+
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.navbar .nav-link {
+  font-weight: 500;
+}
+
+.navbar .btn {
+  border-radius: 20px;
+}
+
+.summary {
+  font-style: italic;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+img {
+  width: 60%;
+  /*height: auto;*/
+  max-height: 300px;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+.preview-image {
+  width: 90%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.content p {
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.comment-box {
+  margin-top: 3rem;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.comment {
+  border-bottom: 1px solid #dee2e6;
+  padding: 0.5rem 0;
+}
+
+.reply {
+  font-size: 0.9rem;
+  color: #0d6efd;
+  cursor: pointer;
+}
+
+.reply-box {
+  margin-top: 0.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+h4,
+h5 {
+  font-weight: 700;
+}

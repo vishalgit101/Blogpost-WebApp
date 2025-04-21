@@ -1,0 +1,36 @@
+body {
+  background: #f4f6f8;
+  padding-top: 100px;
+  transition: background 0.3s, color 0.3s;
+}
+.ql-container {
+  min-height: 300px;
+}
+#word-count {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 5px;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.dark-mode {
+  background-color: #1c1e21 !important;
+  color: #f0f2f5 !important;
+}
+.dark-mode .form-control,
+.dark-mode .ql-toolbar,
+.dark-mode .ql-container {
+  background-color: #333;
+  color: #fff;
+  border-color: #444;
+}
+.image-preview {
+  max-height: 200px;
+  display: block;
+  margin-top: 10px;
+  border-radius: 8px;
+}
