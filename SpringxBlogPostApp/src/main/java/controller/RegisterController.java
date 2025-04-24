@@ -24,7 +24,8 @@ public class RegisterController {
 	@PostMapping("/register")
 	public ResponseEntity<Void> register(@RequestBody User user) {
 		user.setPassword(encoder.encode(user.getPassword()));
-		this.userService.register(user);
+		this.userService.registerWithDefaultRole(user);
+		//this.userService.register(user); first we need to assign a default role
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	

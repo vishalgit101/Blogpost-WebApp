@@ -22,11 +22,22 @@ public class BlogPostRepo {
 		this.entityManager.persist(post);
 	}
 	
-	// Get all the posts
+	/*// Get all the posts
 	public List<Post> getAllPosts(){
 		System.out.println("Getting all the posts....");
-	    TypedQuery<Post> theQuery = this.entityManager.createQuery("from Post p order by p.id desc", Post.class);
+	    TypedQuery<Post> theQuery = this.entityManager.createQuery("Select p.id, p.title, p.created, p.updated, p.author, p.url, p.summary from Post p order by p.id desc", Post.class);
 		List<Post> posts =  theQuery.getResultList();
+		System.out.println(posts);
+		return posts;
+	}*/
+	
+	public List<Object[]> getAllPosts(){
+		System.out.println("Getting all the posts....");
+		TypedQuery<Object[]> theQuery = this.entityManager.createQuery(
+			    "SELECT p.id, p.title, p.created, p.updated, p.url, p.summary " +
+			    "FROM Post p ORDER BY p.id DESC", Object[].class);
+		
+		List<Object[]> posts =  theQuery.getResultList();
 		System.out.println(posts);
 		return posts;
 	}

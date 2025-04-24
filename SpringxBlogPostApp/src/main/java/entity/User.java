@@ -1,12 +1,19 @@
 package entity;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -36,13 +43,31 @@ public class User {
 	private String password;
 	
 	@OneToMany(mappedBy="author")
-	private List<Post> posts;
+	private List<Post> posts;  // number of saved posts
+	
+	//Also add field for the posts created by the author
 	
 	@OneToMany(mappedBy = "author") // Refers to field name in Comment.java
 	private List<Comment> comments;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name="user_roles", 
+	joinColumns = {@JoinColumn(name="user_id")},
+	inverseJoinColumns = {@JoinColumn(name="role_id")})
+	private Set<Role> roles = new HashSet<>(); // set default Role, like user
 
 	public User() {
 		super();
+	}
+
+	
+	
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public int getId() {

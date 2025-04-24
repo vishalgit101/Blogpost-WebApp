@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -45,9 +46,14 @@ public class SecurityConfigs {
 			.csrf(customizer -> customizer.disable()) // can get the csrf token and pass a key value from Controller HttpRequest Object
 			.authorizeHttpRequests(request -> request
 					.requestMatchers("/login", "/login.html", "/register.html", "/register", "home.html", "/api", "/api/all-posts", "api/read", "read-blog.html", "login.js","/login.js", "/scripts/**", "/styles/**").permitAll()
+					.requestMatchers("/admin/**").hasRole("ADMIN") // future- add comment
+					.requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
+					.requestMatchers("/user/**").hasAnyRole("USER","MANAGER","ADMIN")
 					.anyRequest().authenticated())
 			
-			.formLogin(form-> form
+			.httpBasic((Customizer.withDefaults()))
+			
+			.formLogin(form-> form 
 					.loginPage("/login") // Custom User login page url
 					.loginProcessingUrl("/login") // Post endpoint for credentials
 					.defaultSuccessUrl("/home.html",true) // Where to go after sucessful login 
@@ -58,6 +64,8 @@ public class SecurityConfigs {
 					.logoutUrl("/logout")
 					.logoutSuccessUrl("/logout?logout"))
 			.build();
+		
+		
 		
 		}
 	

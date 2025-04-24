@@ -27,7 +27,7 @@ public class BlogPostService {
 		this.blogRepo.saveData(post);
 	}
 	
-	@Transactional
+	/*@Transactional
 	public List<PostHomeDTO> loadAll() {
 		
 		List<Post> posts = this.blogRepo.getAllPosts();
@@ -48,7 +48,32 @@ public class BlogPostService {
 		}
 		
 		return postDTOs;
+	}*/
+	
+	@Transactional
+	public List<PostHomeDTO> loadAll() {
+		
+		List<Object[]> posts = this.blogRepo.getAllPosts();
+		
+		List<PostHomeDTO> postDTOs = new ArrayList<>();
+		
+		for (Object[] post : posts) {
+		    PostHomeDTO postDTO = new PostHomeDTO();
+
+		    postDTO.setId((int) post[0]);                  
+		    postDTO.setTitle((String) post[1]);          
+		    postDTO.setCreated((String) post[2]);    
+		    postDTO.setUpdated((String) post[3]);
+		    postDTO.setUrl((String) post[4]);               
+		    postDTO.setSummary((String) post[5]);   
+			
+			postDTOs.add(postDTO); // adding it to the Array-list
+		}
+		
+		return postDTOs;
 	}
+	
+	
 	
 	@Transactional
 	public Post loadPost(int id) {

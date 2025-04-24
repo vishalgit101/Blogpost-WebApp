@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import DTOs.PostHomeDTO;
 import entity.Post;
 import entity.User;
+import jakarta.servlet.http.HttpServletResponse;
 import model.UserPrincipal;
 import repositories.UserRepository;
 import services.BlogPostService;
@@ -73,16 +75,22 @@ public class BlogController {
 		return ResponseEntity.status(HttpStatus.OK).body(posts);
 	}
 	
-	@GetMapping("/api/get-post")
+	/*@GetMapping("/api/get-post")
 	public ResponseEntity<Void> getBlogById(@RequestParam String id){
 		return null;
-	}
+	}*/
 	
 	@GetMapping("api/read")
 	public ResponseEntity<Post> getPostById(@RequestParam String id){
 		int postId = Integer.parseInt(id);
 		Post tempPost = this.blogPostService.loadPost(postId);
 		return ResponseEntity.status(HttpStatus.OK).body(tempPost);
+	}
+	
+	
+	@GetMapping("/manager/blog-write")
+	public void write(HttpServletResponse response) throws IOException {
+		response.sendRedirect("/blog-write.html"); // Redirects to static login page
 	}
 	
 }

@@ -1,14 +1,12 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import entity.Role;
 import entity.User;
 
 // Current User
@@ -23,7 +21,17 @@ public class UserPrincipal implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		return Collections.singleton(new SimpleGrantedAuthority("USER"));
+		//return Collections.singleton(new SimpleGrantedAuthority("USER"));
+		Set<SimpleGrantedAuthority> authorties = new HashSet<>();
+		
+		// get roles from the user object
+		
+		for( Role role: user.getRoles()) {
+			authorties.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+			 System.out.println("Role: " + role.getName());
+		}
+		
+		return authorties;
 		
 	}
 
