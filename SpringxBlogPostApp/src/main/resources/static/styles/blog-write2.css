@@ -1,0 +1,179 @@
+/* Blog Editor Styles */
+.blog-editor {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #4f46e508, #0ea5e908);
+  min-height: calc(100vh - 72px);
+}
+
+.blog-form {
+  background: var(--background);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.blog-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.blog-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.blog-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: var(--surface);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+#editor-toolbar {
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background-color: var(--surface);
+  padding: 0.5rem;
+}
+
+#editor {
+  border: 2px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background-color: var(--surface);
+  min-height: 300px;
+}
+
+.ql-editor {
+  font-family: 'Merriweather', serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s ease;
+}
+
+.image-preview:hover {
+  transform: scale(1.02);
+}
+
+#word-count {
+  margin-top: 0.5rem;
+  text-align: right;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+#publish {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+#publish:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+}
+
+@media (max-width: 768px) {
+  .blog-editor {
+    padding: 2rem 0;
+  }
+
+  .blog-form {
+    padding: 1.5rem;
+  }
+
+  .blog-header h1 {
+    font-size: 2rem;
+  }
+
+  .form-control {
+    font-size: 0.875rem;
+  }
+
+  .ql-editor {
+    font-size: 1rem;
+  }
+}
+
+/* Toast for Published Blog */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+}
+
+.toast {
+  background: #a7f3d0;
+  color: #065f46;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: toastSlideIn 0.3s ease-out;
+}
+
+.toast svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+}
+
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+} 

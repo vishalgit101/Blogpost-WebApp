@@ -33,8 +33,10 @@
       <div class="container-fluid">
         <a class="navbar-brand text-primary" href="#">MyBlog</a>
         <div class="d-flex gap-3 align-items-center">
-          <button id="darkModeToggle" class="btn btn-outline-dark">🌙</button>
-          <a href="/login" class="btn btn-primary">Login</a>
+          <!--<button id="darkModeToggle" class="btn btn-outline-dark">🌙</button>-->
+          <span id="username-role" style="display: none"></span>
+          <a href="/login" class="btn btn-primary" id="loginBtn" style="display: inline">Login</a>
+          <a href="/logout" class="btn btn-primary" id="logoutBtn" style="display: none">Logout</a>
         </div>
       </div>
     </nav>
@@ -45,11 +47,23 @@
     >
       <div class="container d-flex gap-4">
         <a href="/" class="nav-link">🏠 Home</a>
-        <a href="/manager/blog-write" class="nav-link">✍️ Write Blog</a>
+        <a href="/manager/blog-write" class="nav-link" id="write">✍️ Write Blog</a>
+        
         <a href="/about" class="nav-link">ℹ️ About</a>
         <a href="/contact" class="nav-link">📬 Contact</a>
       </div>
     </div>
+	
+	<!-- Custom Modal -->
+	<div id="accessDeniedModal" class="modal">
+	  <div class="modal-content">
+	    <span class="close-button" id="closeBtn">&times;</span>
+	    <h2>🚫 Access Denied</h2>
+	    <p>You need permission from the Admin to write Blogs.</p>
+	    <p>or consider logging with the account that has the permission</p>
+	  </div>
+	</div>
+
 
     <!-- Hero Section -->
     <section class="hero animate__animated animate__fadeIn">

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Contact Page</title>
+</head>
+<body>
+	<!-- Nav bar matching the other part of the application -->
+	<!-- Form/input fields for User info like firstname, lastname, email, phone number, Description etc requesting for permission to write blogs -->
+	<!-- Then submit button and the lower footer matching existing style -->
+	<!-- form event would be prevent by the js and will send json data to the backend from the various form/input fields  -->
+	<form id="contactForm">
+	  <input type="text" class="first-name" placeholder="First Name" required /> <br>
+	  <input type="text" class="last-name" placeholder="Last Name" required /> <br>
+	  <input type="email" class="email" placeholder="Email" required /> <br>
+	  <input type="tel" class="phone" placeholder="Phone Number" /><br>
+	  <textarea class="description" placeholder="Why do you want to write blogs?" required></textarea> <br>
+	  <button type="submit">Request Permission</button>
+	</form>
+	
+	
+</body>
+	<script src="scripts/contact.js"></script>
+</html>

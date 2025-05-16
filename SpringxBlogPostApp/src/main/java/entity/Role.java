@@ -24,7 +24,7 @@ public class Role {
 	@Column(name ="name")
 	private String name;
 	
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER) // name of the field in the User Entity
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY) // name of the field in the User Entity, Lazy, cos i dont want to load all the users with different roles
 	private Set<User> users = new HashSet<>();
 
 	public Role() {

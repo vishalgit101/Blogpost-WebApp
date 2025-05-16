@@ -44,6 +44,8 @@ quill.on("text-change", () => {
   wordCountEl.innerText = `${words} word${words === 1 ? "" : "s"}`;
 });
 
+
+
 // Form submit
 document.getElementById("blog-form").addEventListener("submit", (e) => {
   e.preventDefault();
@@ -55,10 +57,10 @@ document.getElementById("blog-form").addEventListener("submit", (e) => {
 });
 
 // Toggle dark mode
-document.getElementById("toggleTheme").addEventListener("click", () => {
+/*document.getElementById("toggleTheme").addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
   document.querySelector(".container").classList.toggle("dark-mode");
-});
+});*/
 
 // Preview image handler
 // Preview image from URL input
@@ -74,6 +76,40 @@ document
       previewImg.style.display = "none";
     }
   });
+  
+  
+  // Check user role and display admin controls
+  const userName = localStorage.getItem("userEmail");
+  const userRole = localStorage.getItem("userRole");
+
+  // Display username and role
+  const usernameRoleField = document.createElement("span");
+  usernameRoleField.id = "username-role";
+  usernameRoleField.style.marginRight = "1rem";
+  usernameRoleField.style.color = "var(--text-secondary)";
+
+  if (userName != null) {
+    usernameRoleField.textContent = `${userName} (${userRole})`;
+    const navLinks = document.querySelector(".nav-links");
+
+    // Insert before the logout button instead of at the beginning
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      navLinks.insertBefore(usernameRoleField, logoutBtn);
+    }
+  }
+
+
+  // Handle login/logout display
+  const logoutBtn = document.getElementById("logoutBtn");
+  const loginBtn = document.getElementById("loginBtn");
+
+  if (userName != null && logoutBtn && loginBtn) {
+    logoutBtn.style.display = "inline";
+    loginBtn.style.display = "none";
+  }
+  
+
 
 async function sendData(event) {
   event.preventDefault();
@@ -86,10 +122,14 @@ async function sendData(event) {
   const plainText = quill.getText().trim();
   // await fetch...
 
+  
+
+  // Extract word count from the word-count element
+  const wordCount = parseInt(wordCountEl.innerText.split(' ')[0]);
   if (!plainText || plainText === "") {
     alert("Please write something in the blog content.");
     return;
-  } else if (wordCountEl < 50) {
+  } else if (wordCount < 50) {
     alert("Word Count cant be less than 50.");
     return;
   }
@@ -104,7 +144,7 @@ async function sendData(event) {
   }
 
   try {
-    const response = await fetch("/api/save", {
+    const response = await fetch("/api/manager/save", {
       method: "Post",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +154,7 @@ async function sendData(event) {
 
     if (response.ok) {
       alert("Blog Successfully Published!");
-      window.location.href = "/home.html";
+      window.location.href = "/home2.html";
     } else {
       throw new Error("Blog failed to get published!");
     }

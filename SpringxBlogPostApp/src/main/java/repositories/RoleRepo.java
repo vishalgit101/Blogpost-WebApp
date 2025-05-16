@@ -1,10 +1,12 @@
 package repositories;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
 import entity.Role;
+import entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -34,4 +36,5 @@ public class RoleRepo {
 	        return null; 
 	    }
 	}
+
 }

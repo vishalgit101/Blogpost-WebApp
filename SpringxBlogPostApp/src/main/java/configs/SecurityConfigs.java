@@ -12,16 +12,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import filter.JsonUsernamePasswordAuthenticationFilter;
+import filter.RestAuthenticationEntryPoint;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 public class SecurityConfigs {
 	
 	private final UserDetailsService userDetailsService;
-	public SecurityConfigs(UserDetailsService userDetailsService) {
+	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+	public SecurityConfigs(UserDetailsService userDetailsService, RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
 		super();
 		this.userDetailsService = userDetailsService;
+		this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
 	}
 
 	/*@Bean
@@ -45,24 +50,43 @@ public class SecurityConfigs {
 		return http
 			.csrf(customizer -> customizer.disable()) // can get the csrf token and pass a key value from Controller HttpRequest Object
 			.authorizeHttpRequests(request -> request
-					.requestMatchers("/login", "/login.html", "/register.html", "/register", "home.html", "/api", "/api/all-posts", "api/read", "read-blog.html", "login.js","/login.js", "/scripts/**", "/styles/**").permitAll()
+					.requestMatchers("/login", "/login.html", "/register.html", "/register", "home2.html", "/api", "/api/all-posts", "api/read", "/read-blog2", "read-blog2.html", "login.js","/login.js", "/scripts/**", "/styles/**").permitAll()
 					.requestMatchers("/admin/**").hasRole("ADMIN") // future- add comment
 					.requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
 					.requestMatchers("/user/**").hasAnyRole("USER","MANAGER","ADMIN")
 					.anyRequest().authenticated())
 			
-			.httpBasic((Customizer.withDefaults()))
+			//.httpBasic((Customizer.withDefaults()))
 			
 			.formLogin(form-> form 
 					.loginPage("/login") // Custom User login page url
 					.loginProcessingUrl("/login") // Post endpoint for credentials
-					.defaultSuccessUrl("/home.html",true) // Where to go after sucessful login 
+					.defaultSuccessUrl("/home2.html",true) // Where to go after sucessful login 
 					.permitAll()
 					)
+			
+			.exceptionHandling(ex -> ex
+					.defaultAuthenticationEntryPointFor(
+						restAuthenticationEntryPoint, 
+						new AntPathRequestMatcher("/api/**") // Apply only to API calls
+					)
+				)
+			
 			//.httpBasic(Customizer.withDefaults())
 			.logout(logout -> logout
 					.logoutUrl("/logout")
-					.logoutSuccessUrl("/logout?logout"))
+					.logoutSuccessUrl("/home2.html"))
+			
+			/*.exceptionHandling(configure -> configure
+						.accessDeniedPage("/access-denied"))*/
+			
+			.exceptionHandling(exception -> exception
+			          .accessDeniedHandler((request, response, accessDeniedException) -> {
+			              response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			              response.setContentType("application/json");
+			              response.getWriter().write("{\"error\": \"Access Denied\"}");
+			          }))
+			
 			.build();
 		
 		

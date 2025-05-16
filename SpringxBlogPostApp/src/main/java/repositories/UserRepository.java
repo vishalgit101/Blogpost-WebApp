@@ -1,8 +1,11 @@
 package repositories;
 
+
+
 import org.springframework.stereotype.Repository;
 import entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 
 @Repository
@@ -22,13 +25,23 @@ public class UserRepository {
 	
 	public User findByUsername(String username) {
 		System.out.println("Looking up user with email: " + username); // debug log
-		TypedQuery<User> theQuery = this.entityManager.createQuery("from User where email=:theData", User.class);
-		theQuery.setParameter("theData", username);
-		return theQuery.getSingleResult();
+		try {
+			TypedQuery<User> theQuery = this.entityManager.createQuery("from User where email=:theData", User.class);
+			theQuery.setParameter("theData", username);
+			return theQuery.getSingleResult();
+		}catch (NoResultException ex) {
+			System.out.println("No user found for email: " + username); // optional debug log
+	        return null;
+		}
+
 	}
 	
 	
 	public void save(User user) {
 		this.entityManager.persist(user);
+	}
+	
+	public void updateUser(User user) {
+		this.entityManager.merge(user);
 	}
 }	

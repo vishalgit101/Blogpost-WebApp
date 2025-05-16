@@ -43,9 +43,12 @@ public class User {
 	private String password;
 	
 	@OneToMany(mappedBy="author")
-	private List<Post> posts;  // number of saved posts
+	private List<Post> posts;  // number of posts author craeted
 	
-	//Also add field for the posts created by the author
+	//Also a field for saving posts... Manany to many needed
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "saved_posts", joinColumns = {@JoinColumn(name="user_id")}, inverseJoinColumns = {@JoinColumn(name="post_id")})
+	private Set<Post>savedPosts = new HashSet<Post>();
 	
 	@OneToMany(mappedBy = "author") // Refers to field name in Comment.java
 	private List<Comment> comments;
@@ -109,6 +112,16 @@ public class User {
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
 	}
+
+	public Set<Post> getSavedPosts() {
+		return savedPosts;
+	}
+
+	public void addSavedPosts(Post post) {
+		this.savedPosts.add(post);
+	}
 	
-	
+	public void addRole(Role role) {
+		this.roles.add(role);
+	}
 }

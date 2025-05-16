@@ -1,9 +1,4 @@
-//script.js
 
-//Toggle dark mode
-document.getElementById("toggleTheme").addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-});
 
 //Extract postId from query string
 const params = new URLSearchParams(window.location.search);
@@ -16,69 +11,194 @@ async function fetchPost(postId) {
     if (!response.ok) {
       throw new Error("Failed to fetch post");
     }
-    const post = await response.json();
-    renderPost(post);
+	console.log(response)
+
+    const data = await response.json();
+	console.log(data)
+	const post = data.post;
+	const username = data.username;
+    renderPost(post, username);
   } catch (error) {
     console.error("Error loading post:", error);
-    document.getElementById("post-container").innerText =
-      "Failed to load post.";
+    const container = document.getElementById("post-container");
+    if (container) {
+      container.innerHTML = `
+        <div class="error-message">
+          <h2>Failed to load post</h2>
+          <p>Please try again later or contact support if the problem persists.</p>
+        </div>
+      `;
+    }
   }
 }
 
 //Render blog post to the page
-function renderPost(post) {
+function renderPost(post, username) {
   const container = document.getElementById("post-container");
+  if (!container) {
+    console.error("Post container not found");
+    return;
+  }
+
   container.innerHTML = `
-<img src="${post.url}" alt="Post Image" class="preview-image">
-<h1 class="title">${post.title}</h1>
-<p class="summary">${post.created.split(" ")[0]}</p>
-<hr>
-<div class="content">${post.content}</div>
-<div class="comment-box">
-<h4>Leave a Comment</h4>
-<form id="comment-form">
- <div class="mb-3">
-   <textarea class="form-control" id="commentText" rows="3" placeholder="Write your comment here..."></textarea>
- </div>
- <button type="submit" class="btn btn-primary">Submit Comment</button>
-</form>
-<div id="comments" class="mt-4">
- <h5>Comments</h5>
- <div class="comment">Nice blog post! <span class="reply">Reply</span></div>
- <div class="comment">Thanks for sharing! <span class="reply">Reply</span></div>
-</div>
-</div>
-`;
+    <article class="blog-post animate-fade-in">
+      <div class="container">
+        <div class="blog-header">
+          <div class="blog-meta">
+            <span class="blog-author">
+              <svg width="16" height="16" fill="none" stroke="currentColor">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              ${username || 'Anonymous'}
+            </span>
+            <span class="blog-date">
+              <svg width="16" height="16" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4l3 3"/>
+              </svg>
+              ${post.created.split(" ")[0]}
+            </span>
+            <span class="blog-read-time">
+              <svg width="16" height="16" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              ${Math.ceil(post.content.split(' ').length / 200)} min read
+            </span>
+          </div>
+          <h1 class="blog-title">${post.title}</h1>
+          <p class="blog-summary">${post.summary || 'No summary available'}</p>
+          <div class="blog-image">
+            <img src="${post.url}" alt="${post.title}">
+          </div>
+        </div>
+        <div class="blog-content">
+          ${post.content}
+        </div>
+      </div>
+    </article>
+  `;
 }
 
 //Handle comment submission
 document.addEventListener("submit", function (e) {
   if (e.target.id === "comment-form") {
     e.preventDefault();
-    const commentText = document.getElementById("commentText").value.trim();
+    const commentText = document.getElementById("commentText")?.value.trim();
     if (commentText) {
-      const commentDiv = document.createElement("div");
-      commentDiv.classList.add("comment");
-      commentDiv.innerHTML = `${commentText} <span class="reply">Reply</span>`;
-      document.getElementById("comments").appendChild(commentDiv);
-      document.getElementById("commentText").value = "";
+      const commentsContainer = document.getElementById("comments");
+      if (commentsContainer) {
+        const commentDiv = document.createElement("div");
+        commentDiv.classList.add("comment");
+        commentDiv.innerHTML = `
+          <div class="comment-content">
+            <p>${commentText}</p>
+            <span class="comment-meta">
+              <span class="comment-time">Just now</span>
+              <span class="reply">Reply</span>
+            </span>
+          </div>
+        `;
+        commentsContainer.appendChild(commentDiv);
+        document.getElementById("commentText").value = "";
+      }
     }
   }
 });
 
-//Delegate reply handler
+//Delegate reply handler 
 document.addEventListener("click", function (e) {
   if (e.target.classList.contains("reply")) {
     const replyBox = document.createElement("div");
     replyBox.classList.add("reply-box");
     replyBox.innerHTML = `
-<textarea class="form-control mb-2" rows="2" placeholder="Write your reply..."></textarea>
-<button class="btn btn-sm btn-secondary">Submit Reply</button>
-`;
-    e.target.after(replyBox);
-    e.target.remove();
+      <textarea class="form-control mb-2" rows="2" placeholder="Write your reply..."></textarea>
+      <button class="btn btn-sm btn-secondary">Submit Reply</button>
+    `;
+    const commentMeta = e.target.closest('.comment-meta');
+    if (commentMeta) {
+      commentMeta.after(replyBox);
+      e.target.remove();
+    }
   }
 });
 
+// Admin functionality
+const adminSection = document.querySelector(".admin-section");
+const editPostBtn = document.getElementById("edit-btn");
+const deletePostBtn = document.getElementById("delete-btn");
+
+// Check user role and display admin controls
+const userName = localStorage.getItem("userEmail");
+const userRole = localStorage.getItem("userRole");
+
+// Display username and role
+const usernameRoleField = document.createElement("span");
+usernameRoleField.id = "username-role";
+usernameRoleField.style.marginRight = "1rem";
+usernameRoleField.style.color = "var(--text-secondary)";
+
+if (userName != null) {
+  usernameRoleField.textContent = `${userName} (${userRole})`;
+  const navLinks = document.querySelector(".nav-links");
+
+  // Insert before the logout button instead of at the beginning
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    navLinks.insertBefore(usernameRoleField, logoutBtn);
+  }
+}
+
+if (userName != null && userRole == "ADMIN" && adminSection) {
+  adminSection.style.display = "block";
+} else if (adminSection) {
+  adminSection.style.display = "none";
+}
+
+// Handle login/logout display
+const logoutBtn = document.getElementById("logoutBtn");
+const loginBtn = document.getElementById("loginBtn");
+
+if (userName != null && logoutBtn && loginBtn) {
+  logoutBtn.style.display = "inline";
+  loginBtn.style.display = "none";
+}
+
+// Delete post functionality
+function deletePost() {
+  if (!deletePostBtn) return;
+  
+  deletePostBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    
+    const confirmAction = confirm("Are you sure you want to delete this post?");
+    
+    if (!confirmAction) {
+      return;
+    }
+    
+    try {
+      const res = await fetch(`/api/admin/delete?postId=${postId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      
+      if (!res.ok) {
+        throw new Error("Failed to delete the post");
+      }
+      
+      window.location.href = "/home2.html";
+    } catch (err) {
+      console.error("Error deleting post:", err);
+    }
+  });
+}
+
 //Load post
-if (postId) fetchPost(postId);
+if (postId) {
+  fetchPost(postId);
+  deletePost();
+} 

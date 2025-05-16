@@ -8,18 +8,22 @@ import org.springframework.stereotype.Service;
 
 import DTOs.PostHomeDTO;
 import entity.Post;
+import entity.User;
 import jakarta.transaction.Transactional;
 import repositories.BlogPostRepo;
+import repositories.SavePostRepo;
 
 @Service
 public class BlogPostService {
 	// DI Repo...
 	private BlogPostRepo blogRepo;
+	private SavePostRepo savePostRepo;
 
 	@Autowired
-	public BlogPostService(BlogPostRepo blogRepo) {
+	public BlogPostService(BlogPostRepo blogRepo, SavePostRepo savePostRepo) {
 		super();
 		this.blogRepo = blogRepo;
+		this.savePostRepo = savePostRepo;
 	}
 	
 	@Transactional
@@ -78,6 +82,23 @@ public class BlogPostService {
 	@Transactional
 	public Post loadPost(int id) {
 		return this.blogRepo.getPost(id);
+	}
+
+	@Transactional
+	public void deletePost(int id) {
+		System.out.println("Delete Function.... checking for execution in service");
+		this.blogRepo.delete(id);
+		
+	}
+
+	@Transactional
+	public void savePost(int postId, User user) {
+		this.savePostRepo.savePost(postId, user);
+	}
+
+	public List<PostHomeDTO> getSavedPosts(User user) { // Set of saved posts should return.
+		List<PostHomeDTO> posts = this.blogRepo.getSavedPosts(user);
+		return posts;
 	}
 	
 }

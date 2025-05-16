@@ -14,6 +14,23 @@ public class PostHomeDTO {
 	private String url;
 	
 	private String summary;
+	
+	private String authorUsername;
+	
+	public PostHomeDTO() {
+		super();
+	}
+
+	public PostHomeDTO(int id, String title, String created, String updated, String url, String summary,String authorUsername) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.created = created;
+		this.updated = updated;
+		this.url = url;
+		this.summary = summary;
+		this.authorUsername = authorUsername;
+	}
 
 	public int getId() {
 		return id;
@@ -61,6 +78,14 @@ public class PostHomeDTO {
 
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+
+	public String getAuthorUsername() {
+		return authorUsername;
+	}
+
+	public void setAuthorUsername(String authorUsername) {
+		this.authorUsername = authorUsername;
 	}
 	
 	
