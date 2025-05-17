@@ -2,6 +2,8 @@ package repositories;
 
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 import entity.User;
 import jakarta.persistence.EntityManager;
@@ -43,5 +45,13 @@ public class UserRepository {
 	
 	public void updateUser(User user) {
 		this.entityManager.merge(user);
+	}
+	
+	public List<User> allWriters(String role){
+		TypedQuery<User> theQuery = this.entityManager.createQuery("Select u From User u Join u.roles r where r.name=:theData",User.class);
+		theQuery.setParameter("theData", role);
+		
+		return theQuery.getResultList();
+		
 	}
 }	

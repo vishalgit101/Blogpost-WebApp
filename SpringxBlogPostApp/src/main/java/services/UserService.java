@@ -1,5 +1,6 @@
 package services;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -53,6 +54,29 @@ public class UserService {
 		
 		System.out.println("User Updated Successfully");
 		return true;
+	}
+	
+	public List<User> allAuthors(){
+		String role = "MANAGER";
+		return this.userRepo.allWriters(role);	
+	}
+	
+	@Transactional
+	public void revokeWriteAccess(String userEmail) {
+		User user = this.userRepo.findByUsername(userEmail);
+		
+		if(user == null) {
+			System.out.println("No user found");
+		}
+		
+		Role authorRole = this.roleRepo.findRole("MANAGER");
+		
+		user.removeRole(authorRole);
+		
+		this.userRepo.updateUser(user);
+		
+		System.out.println("Write Permission Revoked Successfully");
+		
 	}
 	
 }

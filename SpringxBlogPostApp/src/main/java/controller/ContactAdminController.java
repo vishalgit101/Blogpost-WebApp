@@ -1,6 +1,9 @@
 package controller;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,11 +45,15 @@ public class ContactAdminController {
 		System.out.println("Contact Admin Controller...");
 		System.out.println("Payload: " + payload);
 		
-		String email = userPrincipal.getUsername();
-		User user = this.userRepository.findByUsername(email);
+		String userOwnEmail = userPrincipal.getUsername();
+		User user = this.userRepository.findByUsername(userOwnEmail);
 		
 		String userId =  String.valueOf(user.getId()) ;
 		payload.put("userId", userId);
+		
+		// paylaod from the frontend already has user details like email, phone number etc
+		// we also append requesting users own email
+		payload.put("userOwnEmail", userOwnEmail);
 		String requestId = UUID.randomUUID().toString();
 		// have the proxy interface where you pass the request id
 		return this.emailProxy.getWriteAccess(requestId, payload);
@@ -66,22 +73,52 @@ public class ContactAdminController {
 		// response will be stored in the confirmation
 		
 		// get the email for which write access was required
-		String userEmail = confirmation.getBody().get("userEmail");
+		String userAccessEmail = confirmation.getBody().get("userAccessEmail");
+		String userOwnEmail = confirmation.getBody().get("userOwnEmail"); // users owm email
 		
 		// use service method to check if the user with that email exists in the dB
-		boolean success = this.userService.grantWritePermission(userEmail);
+		boolean success = this.userService.grantWritePermission(userAccessEmail);
 		
 		// if no throw an exception and if yes then grant the permission
 		if(!success) {
 			System.out.println("Contact controller no user with that email exist in the dB");
-			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No User with that email exists in the dB"); // err 400
+			// Response Email to user that their request failed
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No User with that email exists in the dB"); // err 400
 		}
 		System.out.println("Permission Granted Successfully: From the Contact controller");
 		
-		return ResponseEntity.status(HttpStatus.OK).body("Permission Successfully granted");
 		// after granting permission and request to the email service should be sent
+		//Response Email to to user for if request granted
+		String requestId2 = UUID.randomUUID().toString();
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userOwnEmail", userOwnEmail);
+		
+		this.emailProxy.accessGranted(requestId2, map);
 		// which would send a mail to the user that their request has been confirmed
-		//return null;
+		
+		return ResponseEntity.status(HttpStatus.OK).body("Permission Successfully granted and response sent");
+
 	}
 	
+	@GetMapping("/api/admin/authors")
+	public ResponseEntity<List<Map<String,String>>> getWriters(){
+		List<User> users = this.userService.allAuthors();
+		
+		List<Map<String,String>> body = new ArrayList<Map<String,String>>();
+		
+		for(User user : users) {
+			Map<String, String> userDetails = new HashMap<String, String>();
+			userDetails.put("name", user.getUsername());
+			userDetails.put("email", user.getEmail());
+			body.add(userDetails);
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(body);
+	}
+	
+	@PostMapping("/api/admin/authors/revoke")
+	public ResponseEntity<Void> revokeWriteAccess(@RequestParam("email") String email) {
+		this.userService.revokeWriteAccess(email);
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
 }

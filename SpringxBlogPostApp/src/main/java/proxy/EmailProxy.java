@@ -21,6 +21,8 @@ public interface EmailProxy { // ALl the calls to the email microservice service
 	@GetMapping("/api/users/write-access/confirmation")
 	ResponseEntity<Map<String, String>> getConfirmation(@RequestHeader(required = false) String requestId, @RequestParam("token") String token);
 	
+	@PostMapping("api/users/access-granted")
+	ResponseEntity<Void> accessGranted(@RequestHeader String requestId, @RequestBody Map<String, String> paylaod);
 }
 
 
@@ -36,5 +38,11 @@ class EmailFallback implements EmailProxy {
 	public ResponseEntity<Map<String, String>> getConfirmation(String requestId, String token) {
 		 System.out.println("Fallback triggered, Failed to Grant Permission");
 	      return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+	}
+
+	@Override
+	public ResponseEntity<Void> accessGranted(String requestId, Map<String, String> paylaod) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
