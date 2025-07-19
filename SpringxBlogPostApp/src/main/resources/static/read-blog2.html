@@ -128,8 +128,27 @@
         <span>Blog Saved!</span>
       </div>
     </div>
+    
+	  <!-- Comment Form -->
+	<div class="comment-section-wrapper" style="display:none">
+	    <div class="comment-section" id="write-comment">
+	        <textarea rows="4" placeholder="Add a comment..." id="text-field"></textarea>
+	        <button type="submit" id= "submit-btn">Post Comment</button>
+	    </div>
+	</div>
+	
+	<div class="comments-root" id="comments-root">
+		
+	</div>
+	
+	<!-- Reply Form -->
+	<div class="reply-input-field" style="display:none">
+		<textarea rows="4" placeholder="Add a reply" id="reply-text-field"></textarea>
+	    <button type="submit" id= "reply-submit-btn">Submit</button>
+	</div>	
 
     <!-- Scripts -->
     <script src="scripts/read-blog.js"></script>
+    <script src="scripts/comment.js"></script>
   </body>
 </html>

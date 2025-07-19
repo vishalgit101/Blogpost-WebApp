@@ -17,16 +17,24 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import filter.JsonUsernamePasswordAuthenticationFilter;
 import filter.RestAuthenticationEntryPoint;
 import jakarta.servlet.http.HttpServletResponse;
+import oAuth2.CustomOAuth2UserService;
+import oAuth2.OAuthAuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfigs {
 	
 	private final UserDetailsService userDetailsService;
 	private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-	public SecurityConfigs(UserDetailsService userDetailsService, RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
+	//private OAuthAuthenticationSuccessHandler handler;
+	private CustomOAuth2UserService customOAuth2UserService;
+	
+	public SecurityConfigs(UserDetailsService userDetailsService, RestAuthenticationEntryPoint restAuthenticationEntryPoint, CustomOAuth2UserService customOAuth2UserService) { //OAuthAuthenticationSuccessHandler handler
 		super();
 		this.userDetailsService = userDetailsService;
 		this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
+		//this.handler = handler;
+		this.customOAuth2UserService = customOAuth2UserService;
+		
 	}
 
 	/*@Bean
@@ -79,6 +87,21 @@ public class SecurityConfigs {
 			
 			/*.exceptionHandling(configure -> configure
 						.accessDeniedPage("/access-denied"))*/
+
+		       // Add OAuth2 login support
+		      /* .oauth2Login(oauth2 -> oauth2
+		                .loginPage("/login")
+		                .successHandler(this.handler)
+		          
+		                .defaultSuccessUrl("/home2.html", true)
+		        )*/
+		       
+			
+			// commented cos i only want normal login for now
+		       /* .oauth2Login(oauth2 -> oauth2
+		                .userInfoEndpoint()
+		                .userService(customOAuth2UserService) // Hook it in here
+		            )*/
 			
 			.exceptionHandling(exception -> exception
 			          .accessDeniedHandler((request, response, accessDeniedException) -> {

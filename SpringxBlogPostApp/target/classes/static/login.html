@@ -28,6 +28,12 @@
         }
       }
     </style>
+    
+    <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+    
   </head>
 
   <body>
@@ -45,7 +51,7 @@
           <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
             <form class="login">
               <!-- <form class="login" action="/login" method="post"> -->
-              <div
+              <!--  <div
                 class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start"
               >
                 <p class="lead fw-normal mb-0 me-3">Sign in with</p>
@@ -75,7 +81,18 @@
                 >
                   <i class="fab fa-linkedin-in"></i>
                 </button>
-              </div>
+              </div> -->
+              
+              <div class="d-flex flex-column mb-4">
+				  <p class="lead fw-normal mb-2 text-center">Sign in with</p>
+				  <a href="/oauth2/authorization/google" class="btn btn-outline-danger mb-2">
+				    <i class="fab fa-google me-2"></i> Continue with Google
+				  </a>
+				  <a href="/oauth2/authorization/github" class="btn btn-outline-dark">
+				    <i class="fab fa-github me-2"></i> Continue with GitHub
+				  </a>
+			</div>
+              
 
               <div class="divider d-flex align-items-center my-4">
                 <p class="text-center fw-bold mx-3 mb-0">Or</p>

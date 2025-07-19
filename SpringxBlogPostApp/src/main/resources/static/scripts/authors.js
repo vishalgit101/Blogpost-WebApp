@@ -4,7 +4,7 @@ const userDetailTable = document.querySelector(".user-details");
 async function loadAuthors(){
 	try{
 		// fetch the users with the manager roles
-		const res = await fetch("/api/admin/authors")
+		const res = await fetch("/admin/api/authors")
 		console.log(res)
 		
 		const data = await res.json();
@@ -61,7 +61,7 @@ async function revokeCall(userEmail){
 			return
 		}
 		
-		const res = await fetch(`/api/admin/authors/revoke?email=${encodeURIComponent(userEmail)}`, {
+		const res = await fetch(`/admin/api/authors/revoke?email=${encodeURIComponent(userEmail)}`, {
 			method: "POST"
 		})
 		

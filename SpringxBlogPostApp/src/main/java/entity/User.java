@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,6 +52,7 @@ public class User {
 	@JoinTable(name = "saved_posts", joinColumns = {@JoinColumn(name="user_id")}, inverseJoinColumns = {@JoinColumn(name="post_id")})
 	private Set<Post>savedPosts = new HashSet<Post>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "author") // Refers to field name in Comment.java
 	private List<Comment> comments;
 	

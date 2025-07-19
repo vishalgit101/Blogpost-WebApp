@@ -100,7 +100,7 @@ public class ContactAdminController {
 
 	}
 	
-	@GetMapping("/api/admin/authors")
+	@GetMapping("/admin/api/authors")
 	public ResponseEntity<List<Map<String,String>>> getWriters(){
 		List<User> users = this.userService.allAuthors();
 		
@@ -116,7 +116,7 @@ public class ContactAdminController {
 		return ResponseEntity.status(HttpStatus.OK).body(body);
 	}
 	
-	@PostMapping("/api/admin/authors/revoke")
+	@PostMapping("/admin/api/authors/revoke")
 	public ResponseEntity<Void> revokeWriteAccess(@RequestParam("email") String email) {
 		this.userService.revokeWriteAccess(email);
 		return ResponseEntity.status(HttpStatus.OK).build();

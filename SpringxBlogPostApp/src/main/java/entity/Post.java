@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -49,9 +51,9 @@ public class Post {
 	@Column(name="summary")
 	private String summary;
 	
-	/*@JsonIgnore
+	@JsonIgnore
 	@OneToMany(mappedBy = "post") // Refers to field name in Comment.java
-	private List<Comment> comments;*/
+	private List<Comment> comments;
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "savedPosts", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // cos i dont want to lad all the users

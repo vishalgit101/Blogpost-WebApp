@@ -79,50 +79,10 @@ function renderPost(post, username) {
       </div>
     </article>
   `;
+  
+  // loads the comment section after the post is loaded
+  document.querySelector(".comment-section-wrapper").style.display = "block"
 }
-
-//Handle comment submission
-document.addEventListener("submit", function (e) {
-  if (e.target.id === "comment-form") {
-    e.preventDefault();
-    const commentText = document.getElementById("commentText")?.value.trim();
-    if (commentText) {
-      const commentsContainer = document.getElementById("comments");
-      if (commentsContainer) {
-        const commentDiv = document.createElement("div");
-        commentDiv.classList.add("comment");
-        commentDiv.innerHTML = `
-          <div class="comment-content">
-            <p>${commentText}</p>
-            <span class="comment-meta">
-              <span class="comment-time">Just now</span>
-              <span class="reply">Reply</span>
-            </span>
-          </div>
-        `;
-        commentsContainer.appendChild(commentDiv);
-        document.getElementById("commentText").value = "";
-      }
-    }
-  }
-});
-
-//Delegate reply handler 
-document.addEventListener("click", function (e) {
-  if (e.target.classList.contains("reply")) {
-    const replyBox = document.createElement("div");
-    replyBox.classList.add("reply-box");
-    replyBox.innerHTML = `
-      <textarea class="form-control mb-2" rows="2" placeholder="Write your reply..."></textarea>
-      <button class="btn btn-sm btn-secondary">Submit Reply</button>
-    `;
-    const commentMeta = e.target.closest('.comment-meta');
-    if (commentMeta) {
-      commentMeta.after(replyBox);
-      e.target.remove();
-    }
-  }
-});
 
 // Admin functionality
 const adminSection = document.querySelector(".admin-section");
@@ -202,3 +162,5 @@ if (postId) {
   fetchPost(postId);
   deletePost();
 } 
+
+

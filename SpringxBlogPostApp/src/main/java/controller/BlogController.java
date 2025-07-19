@@ -7,11 +7,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -138,6 +141,31 @@ public class BlogController {
 		return ResponseEntity.status(HttpStatus.OK).body(userInfo);
 		
 	}
+	
+	/*@GetMapping("/api/user/me")
+	public ResponseEntity<Map<String, String>> getUser() {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+	    if (auth == null || !(auth.getPrincipal() instanceof UserPrincipal)) {
+	        throw new RuntimeException("User is not authenticated or principal is not UserPrincipal");
+	    }
+
+	    UserPrincipal userPrincipal = (UserPrincipal) auth.getPrincipal();
+
+	    String email = userPrincipal.getUsername();
+	    Collection<? extends GrantedAuthority> authorities = userPrincipal.getAuthorities();
+
+	    List<String> roles = authorities.stream()
+	        .map(GrantedAuthority::getAuthority)
+	        .collect(Collectors.toList());
+
+	    Map<String, String> response = new HashMap<>();
+	    response.put("email", email);
+	    response.put("roles", String.join(",", roles));
+
+	    return ResponseEntity.ok(response);
+	}*/
+
 	
 	@DeleteMapping("/api/admin/delete") // /api/admin/delete/?${postId}
 	public ResponseEntity<Void> deletePost(@RequestParam String postId){

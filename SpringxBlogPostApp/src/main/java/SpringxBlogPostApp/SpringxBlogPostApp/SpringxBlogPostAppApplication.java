@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import jakarta.persistence.Entity;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"repositories","services","controller", "configs", "filter"})
+@ComponentScan(basePackages = {"repositories","services","controller", "configs", "filter", "oAuth2"})
 @EntityScan(basePackages = {"entity"})
 public class SpringxBlogPostAppApplication {
 
