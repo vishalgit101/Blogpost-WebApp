@@ -14,6 +14,27 @@ The landing page where users can see a feed of published blog posts.
 
 ---
 
+### 📃 All Posts
+
+![Posts](project-screenshots/posts.png)  
+Main blog index showing all posts from various users.
+
+---
+
+### 📖 Open Post View
+
+![Open Post](project-screenshots/open-post.png)  
+Detailed view of a blog post with options to like, comment, or save.
+
+---
+
+### 📖 Open Post View (Alt)
+
+![Open Post 2](project-screenshots/open-post2.png)  
+Alternate layout of the single blog post view.
+
+---
+
 ### 🔐 Login Page
 
 ![Login](project-screenshots/login.png)  
@@ -35,13 +56,6 @@ Email template used for welcoming users and granting blog writing access via a m
 
 ---
 
-### 🧑‍💻 Admin Dashboard
-
-![Admin Panel](project-screenshots/admin.png)  
-Admin interface to manage user roles and revoke blog writing permissions.
-
----
-
 ### 🛑 Access Denied
 
 ![Access Denied](project-screenshots/access-denied.png)  
@@ -53,13 +67,6 @@ Shown when users try to access restricted routes or features without proper role
 
 ![Verify Email](project-screenshots/verify.png)  
 Page shown after registration to prompt email verification before activation.
-
----
-
-### 🔓 Permission Request
-
-![Permission](project-screenshots/permission.png)  
-Contact admin page to request blog-writing access. Still needs styling improvements.
 
 ---
 
@@ -77,6 +84,13 @@ Alternate view/layout of the blog writing page.
 
 ---
 
+### 🔓 Permission Request
+
+![Permission](project-screenshots/permission.png)  
+Contact admin page to request blog-writing access. Still needs styling improvements.
+
+---
+
 ### 📥 Saved Posts
 
 ![Saved Posts](project-screenshots/saved-posts.png)  
@@ -88,13 +102,6 @@ Page where users can view blog posts they've saved for later reading.
 
 ![New Posts](project-screenshots/new-posts.png)  
 Section listing the most recently published blog posts.
-
----
-
-### 📃 All Posts
-
-![Posts](project-screenshots/posts.png)  
-Main blog index showing all posts from various users.
 
 ---
 
@@ -112,24 +119,17 @@ Confirmation screen shown after a successful blog submission.
 
 ---
 
+### 🧑‍💻 For Deleting and Editing the Posts
+
+![Panel](project-screenshots/admin.png)  
+Small panel for Deleting and Editing the Posts
+
+---
+
 ### 💬 Comment System
 
 ![Comment](project-screenshots/comment.png)  
 Commenting interface available under each blog post.
-
----
-
-### 📖 Open Post View
-
-![Open Post](project-screenshots/open-post.png)  
-Detailed view of a blog post with options to like, comment, or save.
-
----
-
-### 📖 Open Post View (Alt)
-
-![Open Post 2](project-screenshots/open-post2.png)  
-Alternate layout of the single blog post view.
 
 ---
 
